@@ -13,13 +13,13 @@ import type { FlightData } from "../types";
 // Coordenadas de la Ciudad de México
 const CDMX_CENTER: [number, number] = [19.4326, -99.1332];
 
-// Icono personalizado para los aviones
+// Icono personalizado para los aviones (Bootstrap Icons airplane-fill)
 const planeIcon = new Icon({
   iconUrl:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzQjgyRjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTcuOCAxOS4yIDEzIDIySDlsLTItNS01LTJWMTFsNS0yTTIyIDEzaDRsLTUtNUwxNiA0aDRNMjIgMTNoLTQiLz48L3N2Zz4=",
-  iconSize: [30, 30],
-  iconAnchor: [15, 15],
-  popupAnchor: [0, -15],
+    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0iIzNCODJGNiIgY2xhc3M9ImJpIGJpLWFpcnBsYW5lLWZpbGwiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTYuNDI4IDEuMTUxQzYuNzA4LjU5MSA3LjIxMyAwIDggMHMxLjI5Mi41OTIgMS41NzIgMS4xNTFDOS44NjEgMS43MyAxMCAyLjQzMSAxMCAzdjMuNjkxbDUuMTcgMi41ODVhMS41IDEuNSAwIDAgMSAuODMgMS4zNDJWMTJhLjUuNSAwIDAgMS0uNTgyLjQ5M2wtNS41MDctLjkxOC0uMzc1IDIuMjUzIDEuMzE4IDEuMzE4QS41LjUgMCAwIDEgMTAuNSAxNmgtNWEuNS41IDAgMCAxLS4zNTQtLjg1NGwxLjMxOS0xLjMxOC0uMzc2LTIuMjUzLTUuNTA3LjkxOEEuNS41IDAgMCAxIDAgMTJ2LTEuMzgyYTEuNSAxLjUgMCAwIDEgLjgzLTEuMzQyTDYgNi42OTFWM2MwLS41NjguMTQtMS4yNzEuNDI4LTEuODQ5Ii8+Cjwvc3ZnPg==",
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -16],
 });
 
 interface FlightMapProps {
