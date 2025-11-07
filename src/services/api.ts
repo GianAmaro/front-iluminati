@@ -1,7 +1,6 @@
 import axios from "axios";
 import type {
   FlightData,
-  FlightStats,
   SystemStatus,
   ApiResponse,
 } from "../types";
