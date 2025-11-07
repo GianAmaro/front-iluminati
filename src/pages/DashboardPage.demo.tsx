@@ -1,21 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { Plane, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 import GlassSurface from "../components/GlassSurface";
 import FlightList from "../components/FlightList";
 import FlightMap from "../components/FlightMap";
-import FlightStatsChart from "../components/FlightStatsChart";
-import StatusCard from "../components/StatusCard";
 import ZabbixAlerts from "../components/ZabbixAlerts";
-import ConnectionStatus from "../components/ConnectionStatus";
-import { mockFlights, mockSystemStatus, mockAlerts } from "../utils/mockData";
-import type { FlightData, SystemStatus, ZabbixAlert } from "../types";
+import Estado from "../components/Estado";
+import { mockFlights, mockAlerts } from "../utils/mockData";
+import type { FlightData, ZabbixAlert } from "../types";
 
 function DashboardPageDemo() {
-  const navigate = useNavigate();
   const [flights] = useState<FlightData[]>(mockFlights);
-  const [status] = useState<SystemStatus>(mockSystemStatus);
   const [alerts, setAlerts] = useState<ZabbixAlert[]>(mockAlerts);
 
   const removeAlert = (id: string) => {
@@ -53,49 +48,36 @@ function DashboardPageDemo() {
         {/* Header */}
         <motion.header
           initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
           className="sticky top-0 z-50"
         >
-          <GlassSurface borderRadius={0} backgroundOpacity={0.1}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 w-full">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Plane className="w-8 h-8 text-blue-300" />
-                  <div>
-                    <h1 className="text-2xl font-bold text-white">
-                      Monitor de Vuelos CDMX
-                    </h1>
-                    <p className="text-sm text-white/70">
-                      Sistema de monitoreo en tiempo real con Zabbix Cloud{" "}
-                      <span className="text-amber-400 font-semibold">
-                        (MODO DEMO)
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <ConnectionStatus />
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/")}
-                    className="flex items-center gap-2 px-4 py-2 border border-white/20 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                  >
-                    <Home className="w-4 h-4" />
-                    <span>Inicio</span>
-                  </motion.button>
+          <div className="flex items-center justify-between !px-[29px] !py-[11px] relative w-full min-w-[926px] min-h-[46px]">
+            <div className="inline-flex items-center justify-center gap-3 relative flex-[0_0_auto]">
+              <div className="relative w-fit [font-family:'Inter-SemiBold',Helvetica] font-semibold text-white text-sm tracking-[0] leading-[normal]">
+                Dashboard
+              </div>
+
+              <div className="inline-flex flex-col h-6 items-center justify-center gap-2.5 !p-2.5 relative flex-[0_0_auto] bg-[#00e62a15] rounded-xl overflow-hidden backdrop-blur-[2.0px] backdrop-brightness-[100.0%] backdrop-saturate-[100.0%] [-webkit-backdrop-filter:blur(2.0px)_brightness(100.0%)_saturate(100.0%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.40),inset_1px_0_0_rgba(255,255,255,0.32),inset_0_-1px_1px_rgba(0,0,0,0.13),inset_-1px_0_1px_rgba(0,0,0,0.11)]">
+                <div className="relative w-fit mt-[-7.50px] mb-[-5.50px] [font-family:'Inter-Medium',Helvetica] font-medium text-white text-sm tracking-[0] leading-[normal]">
+                  En línea
                 </div>
               </div>
             </div>
-          </GlassSurface>
+
+            <Link
+              to="/"
+              className="relative w-[38px] h-4 [font-family:'Inter-Medium',Helvetica] font-medium text-white text-sm tracking-[0] leading-[normal] whitespace-nowrap hover:text-white/80 transition-colors"
+            >
+              Inicio
+            </Link>
+          </div>
         </motion.header>
 
         {/* Main Content - Wrapped in GlassSurface */}
         <div className="flex-1 flex items-center justify-center px-4 py-8">
           <GlassSurface
-            className="w-full max-w-[1400px] p-8"
-            backgroundOpacity={0.2}
-            style={{ background: "rgba(255, 255, 255, 0.25)" }}
+            className="w-full max-w-[1400px] !p-8 !bg-white/30"
+            backgroundOpacity={0.1}
             borderRadius={24}
           >
             <main>
@@ -103,41 +85,81 @@ function DashboardPageDemo() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="space-y-6"
+                className="grid grid-cols-1 lg:grid-cols-6 gap-6"
               >
-                {/* Primera fila: Status Cards + Notificaciones */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Status Cards - 2/3 del ancho */}
-                  <div className="lg:col-span-2">
-                    <StatusCard status={status} loading={false} />
+                {/* Columna izquierda - 3/5 del ancho */}
+                <div className="lg:col-span-4 !space-y-6">
+                  {/* Primera fila de Estados - 3 arriba */}
+                  <div className="flex gap-4">
+                    <Estado
+                      statusLabel="En línea"
+                      title="OpenSky"
+                      subtitle="29/10/25 10:20:13"
+                    />
+
+                    <Estado
+                      statusLabel="En línea"
+                      title="Mongo DB"
+                      subtitle="29/10/25 09:45:00"
+                    />
+
+                    <Estado
+                      statusLabel="Sin conexión"
+                      title="Zabbix"
+                      subtitle="29/10/25 09:45:00"
+                      pillFromColor="rgba(200,200,200,0.6)"
+                      pillToColor="rgba(120,120,120,0.6)"
+                    />
+                    <Estado
+                      statusLabel="1358"
+                      title="Total de registros"
+                      subtitle="29/10/25 10:15:30"
+                    />
                   </div>
 
-                  {/* Notificaciones - 1/3 del ancho */}
-                  <div>
+                  {/* Segunda fila de Estados - 3 en medio */}
+                  <div className="flex gap-4">
+                    <Estado
+                      statusLabel="18"
+                      title="Total de vuelos"
+                      subtitle="29/10/25 10:15:30"
+                    />
+
+                    <Estado
+                      statusLabel="33.46ft"
+                      title="Altitud promedio"
+                      subtitle="29/10/25 10:18:45"
+                    />
+
+                    <Estado
+                      statusLabel="907hm/h"
+                      title="Velocidad promedio"
+                      subtitle="29/10/25 10:20:00"
+                    />
+                    <Estado statusLabel="" title="Ver más" subtitle="" />
+                  </div>
+
+                  {/* Lista de Vuelos - Ancho completo de esta columna */}
+                  <div className="lg:col-span-4 !space-y-6">
+                    <FlightList flights={flights} loading={false} />
+                  </div>
+                </div>
+
+                {/* Columna derecha - 2/5 del ancho */}
+                <div className="lg:col-span-2 flex flex-col gap-6 h-full">
+                  {/* ZabbixAlerts - Mitad superior */}
+                  <div className="flex-1 min-h-0">
                     <ZabbixAlerts
                       alerts={alerts}
                       onRemoveAlert={removeAlert}
                       onClearAll={clearAlerts}
                     />
                   </div>
-                </div>
 
-                {/* Segunda fila: Stats + Mapa */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Stats Cards - 2/3 del ancho */}
-                  <div className="lg:col-span-2">
-                    <FlightStatsChart flights={flights} />
-                  </div>
-
-                  {/* Mapa - 1/3 del ancho */}
-                  <div className="flex justify-center items-start">
+                  {/* FlightMap - Mitad inferior */}
+                  <div className="flex-1 min-h-0">
                     <FlightMap flights={flights} />
                   </div>
-                </div>
-
-                {/* Tercera fila: Lista de Vuelos - Ancho completo */}
-                <div>
-                  <FlightList flights={flights} loading={false} />
                 </div>
               </motion.div>
             </main>

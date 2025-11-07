@@ -26,7 +26,7 @@ export interface FlightData {
   origin_country: string;
   latitude: number;
   longitude: number;
-  altitude: number;
+  geo_altitude: number;
   velocity: number;
   heading: number;
   on_ground: boolean;
@@ -34,12 +34,13 @@ export interface FlightData {
 }
 
 export interface FlightStats {
-  total_flights: number;
-  active_flights: number;
-  average_altitude: number;
-  average_velocity: number;
-  countries: { [key: string]: number };
+  total_vuelos: number;
+  en_vuelo: number;
+  en_tierra: number;
+  promedio_velocidad: number;
+  promedio_altitud: number;
 }
+
 
 export interface SystemStatus {
   api_status: "online" | "offline" | "error";

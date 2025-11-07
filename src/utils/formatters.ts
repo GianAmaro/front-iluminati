@@ -9,6 +9,24 @@ export const formatTimeAgo = (date: Date): string => {
   return formatDistanceToNow(date, { addSuffix: true, locale: es });
 };
 
+export const formatFlightStatus = (status: string | null): string => {
+  if (!status) return "Desconocido";
+  switch (status) {
+    case "on_time":
+      return "A tiempo";
+    case "delayed":
+      return "Retrasado";
+    case "boarding":
+      return "Embarcando";
+    case "in_flight":
+      return "En vuelo";
+    case "landed":
+      return "Aterrizado";
+    default:
+      return "Desconocido";
+  }
+};
+
 export const formatAltitude = (meters: number | null): string => {
   if (meters === null) return "N/A";
   const feet = meters * 3.28084;

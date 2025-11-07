@@ -57,20 +57,18 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
   }, []);
 
   return (
-    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 h-full flex flex-col">
-      <h3 className="text-sm font-medium text-gray-700 mb-4">Vuelos en CDMX</h3>
-
-      <div className="flex-1 flex flex-col items-center justify-center">
+    <div className="rounded-2xl h-full">
+      <div className="flex-1 flex flex-col items-center justify-center h-full">
         <div
-          className="rounded-full overflow-hidden shadow-lg mb-4"
-          style={{ width: "280px", height: "280px" }}
+          className="rounded-2xl overflow-hidden shadow-lg w-full"
+          style={{ height: "600px", maxHeight: "400px" }}
         >
           {mapReady && (
             <MapContainer
               center={CDMX_CENTER}
               zoom={9}
               style={{ height: "100%", width: "100%" }}
-              zoomControl={false}
+              zoomControl={true}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -98,7 +96,7 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
                         </p>
                         <p>
                           <strong>Altitud:</strong>{" "}
-                          {formatAltitude(flight.altitude)}
+                          {formatAltitude(flight.geo_altitude)}
                         </p>
                         <p>
                           <strong>Velocidad:</strong>{" "}
@@ -117,10 +115,6 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
             </MapContainer>
           )}
         </div>
-
-        <button className="text-sm text-gray-700 hover:text-gray-900 font-medium transition-colors">
-          Ver más
-        </button>
       </div>
     </div>
   );

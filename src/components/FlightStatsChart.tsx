@@ -20,8 +20,8 @@ const FlightStatsChart: React.FC<FlightStatsProps> = ({ flights }) => {
         (countryCount[flight.origin_country] || 0) + 1;
 
       // Sumar altitudes
-      if (flight.altitude !== null && flight.altitude > 0) {
-        totalAltitude += flight.altitude;
+      if (flight.geo_altitude !== null && flight.geo_altitude > 0) {
+        totalAltitude += flight.geo_altitude;
         validAltitude++;
       }
 
