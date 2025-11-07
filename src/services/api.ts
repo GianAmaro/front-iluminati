@@ -3,6 +3,7 @@ import type {
   FlightData,
   SystemStatus,
   ApiResponse,
+  ZabbixAlert,
 } from "../types";
 
 // Configuración de la API
@@ -160,6 +161,38 @@ export const systemService = {
     } catch (error) {
       console.error("❌ Health check failed:", error);
       return false;
+    }
+  },
+};
+
+export const zabbixService = {
+  // Obtener alertas desde el backend
+  getAlerts: async (): Promise<ZabbixAlert[]> => {
+    try {
+      console.log("🔔 Fetching Zabbix alerts...");
+      const response = await api.get<any>("/zabbix/alerts");
+      const raw = response.data || [];
+
+      // Normalizar y validar la forma de las alertas devueltas por el backend
+      const normalized: ZabbixAlert[] = Array.isArray(raw)
+        ? raw.map((item: any) => ({
+            id: String(item.id ?? item._id ?? Math.random().toString(36).slice(2)),
+            type:
+              item.type === "warning" ||
+              item.type === "error" ||
+              item.type === "success"
+                ? item.type
+                : "info",
+            message: String(item.message ?? item.msg ?? "Alerta"),
+            timestamp: item.timestamp ? new Date(item.timestamp) : new Date(),
+            action: item.action,
+          }))
+        : [];
+
+      return normalized;
+    } catch (error) {
+      console.error("❌ Error fetching alerts:", error);
+      return [];
     }
   },
 };

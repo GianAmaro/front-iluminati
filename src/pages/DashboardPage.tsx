@@ -4,19 +4,20 @@ import { Link } from "react-router-dom";
 import GlassSurface from "../components/GlassSurface";
 import FlightList from "../components/FlightList";
 import FlightMap from "../components/FlightMap";
-import ZabbixAlerts from "../components/ZabbixAlerts";
+//import ZabbixAlerts from "../components/ZabbixAlerts";
+import ZabbixAlertsContainer from "../components/ZabbixAlertsContainer";
 import Estado from "../components/Estado";
 import DestinosChartsModal from "../components/DestinosChartsModal";
 import { useFlights } from "../hooks/useFlights";
 import { useSystemStatus } from "../hooks/useSystemStatus";
-import { useZabbixAlerts } from "../hooks/useZabbixAlerts";
+//import { useZabbixAlerts } from "../hooks/useZabbixAlerts";
 
 // Dashboard principal con datos dinámicos
 
 function DashboardPageDemo() {
   const { flights, loading: flightsLoading } = useFlights();
   const { status, loading: statusLoading } = useSystemStatus();
-  const { alerts, clearAlerts, removeAlert } = useZabbixAlerts();
+  //const { alerts, clearAlerts, removeAlert } = useZabbixAlerts();
   const [showDestinosModal, setShowDestinosModal] = useState(false);
 
   // Estado combinado para el pill de estado general
@@ -283,12 +284,13 @@ function DashboardPageDemo() {
                 <div className="lg:col-span-2 flex flex-col gap-6 h-full">
                   {/* ZabbixAlerts - Mitad superior */}
                   <div className="flex-1 min-h-0 max-h-[400px]">
-                    <ZabbixAlerts
-                      alerts={alerts}
-                      onRemoveAlert={removeAlert}
-                      onClearAll={clearAlerts}
-                    />
+                    
+                    <div className="w-full max-w-md">
+                    {/* 🔥 Reemplaza el componente de mock por el real */}
+                    <ZabbixAlertsContainer />
                   </div>
+                  </div>
+                  
 
                   {/* FlightList - Mitad inferior */}
                   <div className="flex-1 min-h-0 overflow-hidden">

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Bell,
   AlertCircle,
@@ -31,6 +32,10 @@ const ZabbixAlerts: React.FC<ZabbixAlertsProps> = ({
   onClearAll,
   className = "",
 }) => {
+  const [selectedAlert, setSelectedAlert] = useState<ZabbixAlert | null>(null);
+
+  const openAlert = (alert: ZabbixAlert) => setSelectedAlert(alert);
+  const closeAlert = () => setSelectedAlert(null);
   return (
     <div
       className={`flex flex-col h-full w-full items-center justify-start relative ${className}`}
@@ -61,7 +66,13 @@ const ZabbixAlerts: React.FC<ZabbixAlertsProps> = ({
           alerts.map((alert) => (
             <div
               key={alert.id}
-              className="w-full h-10 bg-[#ffffff80] rounded-xl relative overflow-hidden flex items-center !px-2 flex-shrink-0"
+              onClick={() => openAlert(alert)}
+              className="w-full h-10 bg-[#ffffff80] rounded-xl relative overflow-hidden flex items-center !px-2 flex-shrink-0 cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") openAlert(alert);
+              }}
             >
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 <div className="flex-shrink-0">{iconForType[alert.type]}</div>
@@ -75,7 +86,10 @@ const ZabbixAlerts: React.FC<ZabbixAlertsProps> = ({
                 </span>
                 {onRemoveAlert && (
                   <button
-                    onClick={() => onRemoveAlert(alert.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveAlert(alert.id);
+                    }}
                     className="p-1 rounded hover:bg-white/50 transition-colors"
                     aria-label="Eliminar alerta"
                   >
@@ -87,6 +101,107 @@ const ZabbixAlerts: React.FC<ZabbixAlertsProps> = ({
           ))
         )}
       </div>
+      {/* Modal popup para ver el mensaje completo */}
+        {selectedAlert &&
+          (typeof document !== "undefined"
+            ? createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-black/50"
+                    onClick={closeAlert}
+                    aria-hidden
+                  />
+                  <div className="relative bg-white rounded-lg max-w-lg w-full mx-4 p-4 text-black shadow-lg">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0">{iconForType[selectedAlert.type]}</div>
+                        <div>
+                          <div className="[font-family:'Inter-SemiBold',Helvetica] font-semibold text-black text-base">
+                            Alerta
+                          </div>
+                          <div className="text-sm text-gray-600">Hace {formatTimeAgo(selectedAlert.timestamp)}</div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={closeAlert}
+                        className="p-1 rounded hover:bg-gray-100"
+                        aria-label="Cerrar alerta completa"
+                      >
+                        <X className="w-5 h-5 text-black" />
+                      </button>
+                    </div>
+
+                    <div className="mt-4 [font-family:'Inter-Regular',Helvetica] text-black text-sm">
+                      {selectedAlert.message}
+                    </div>
+
+                    {selectedAlert.action && (
+                      <div className="mt-4 text-sm text-gray-700">
+                        <strong>Acción:</strong> {selectedAlert.action}
+                      </div>
+                    )}
+
+                    <div className="mt-4 flex justify-end">
+                      <button
+                        onClick={closeAlert}
+                        className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-black"
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  </div>
+                </div>,
+                document.body
+              )
+            : // Fallback para SSR o entornos sin document
+              (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-black/50"
+                    onClick={closeAlert}
+                    aria-hidden
+                  />
+                  <div className="relative bg-white rounded-lg max-w-lg w-full mx-4 p-4 text-black shadow-lg">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0">{iconForType[selectedAlert.type]}</div>
+                        <div>
+                          <div className="[font-family:'Inter-SemiBold',Helvetica] font-semibold text-black text-base">
+                            Alerta
+                          </div>
+                          <div className="text-sm text-gray-600">Hace {formatTimeAgo(selectedAlert.timestamp)}</div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={closeAlert}
+                        className="p-1 rounded hover:bg-gray-100"
+                        aria-label="Cerrar alerta completa"
+                      >
+                        <X className="w-5 h-5 text-black" />
+                      </button>
+                    </div>
+
+                    <div className="mt-4 [font-family:'Inter-Regular',Helvetica] text-black text-sm">
+                      {selectedAlert.message}
+                    </div>
+
+                    {selectedAlert.action && (
+                      <div className="mt-4 text-sm text-gray-700">
+                        <strong>Acción:</strong> {selectedAlert.action}
+                      </div>
+                    )}
+
+                    <div className="mt-4 flex justify-end">
+                      <button
+                        onClick={closeAlert}
+                        className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-black"
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
     </div>
   );
 };
