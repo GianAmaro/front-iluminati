@@ -49,7 +49,9 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.code === "ECONNABORTED") {
-      console.error("⏱️ Timeout Error - El servidor tardó demasiado en responder");
+      console.error(
+        "⏱️ Timeout Error - El servidor tardó demasiado en responder"
+      );
     } else if (error.response) {
       console.error("❌ API Error Response:", {
         status: error.response.status,
@@ -76,10 +78,20 @@ export const flightService = {
   getActiveFlights: async (): Promise<FlightData[]> => {
     try {
       console.log("🛫 Fetching flights over CDMX...");
-      const response = await api.get<ApiResponse<FlightData[]>>(
-        "/flights" // Usa el endpoint real que tengas
-      );
-      return response.data.data || response.data || [];
+      const response = await api.get<any>("/flights");
+
+      // Manejar dos posibles formatos de respuesta:
+      // 1) { success: boolean, data: FlightData[] }
+      // 2) FlightData[] (array plano)
+      const resp = response.data;
+      if (Array.isArray(resp)) {
+        return resp as FlightData[];
+      }
+      if (resp && Array.isArray(resp.data)) {
+        return resp.data as FlightData[];
+      }
+      // Fallback seguro
+      return [];
     } catch (error) {
       console.error("❌ Error fetching flights:", error);
       return [];
@@ -121,15 +133,12 @@ export const flightService = {
   },
 };
 
-
 export const systemService = {
   // Obtener estado del sistema
   getSystemStatus: async (): Promise<SystemStatus | null> => {
     try {
       console.log("🔍 Fetching system status...");
-      const response = await api.get<ApiResponse<SystemStatus>>(
-        "/status"
-      );
+      const response = await api.get<ApiResponse<SystemStatus>>("/status");
       console.log("✅ System status received:", response.data.data);
       return response.data.data || null;
     } catch (error: any) {
