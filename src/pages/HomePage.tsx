@@ -12,9 +12,6 @@ const HomePage = () => {
         <video autoPlay loop muted className="w-full h-full object-cover">
           <source src="/videos/clouds.mp4" type="video/mp4" />
         </video>
-        {/* Overlay para dar opacidad/oscurecer el fondo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60 pointer-events-none" />
-        {/* Si prefieres uniforme: bg-black/40 */}
       </div>
 
       {/* Header minimalista */}
@@ -73,7 +70,8 @@ const HomePage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/dashboard")}
-            className="mt-16 px-16 py-6 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full hover:bg-white/20 transition-all duration-500 text-lg font-light tracking-wide"
+            className=" 1
+            !mt-16 !px-16 !py-6 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full hover:bg-white/20 transition-all duration-500 text-lg font-light tracking-wide"
           >
             Explore Dashboard
           </motion.button>
