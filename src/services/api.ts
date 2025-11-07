@@ -176,7 +176,9 @@ export const zabbixService = {
       // Normalizar y validar la forma de las alertas devueltas por el backend
       const normalized: ZabbixAlert[] = Array.isArray(raw)
         ? raw.map((item: any) => ({
-            id: String(item.id ?? item._id ?? Math.random().toString(36).slice(2)),
+            id: String(
+              item.id ?? item._id ?? Math.random().toString(36).slice(2)
+            ),
             type:
               item.type === "warning" ||
               item.type === "error" ||
