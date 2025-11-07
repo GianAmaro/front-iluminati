@@ -1,5 +1,6 @@
 import React from "react";
 import { Activity, AlertCircle, CheckCircle, XCircle } from "lucide-react";
+import GlassSurface from "./GlassSurface";
 import type { SystemStatus } from "../types";
 
 interface StatusCardProps {
@@ -10,22 +11,28 @@ interface StatusCardProps {
 const StatusCard: React.FC<StatusCardProps> = ({ status, loading }) => {
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 animate-pulse">
-        <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-        <div className="h-20 bg-gray-200 rounded"></div>
-      </div>
+      <GlassSurface className="p-6 animate-pulse">
+        <div className="w-full">
+          <div className="h-6 bg-white/10 rounded w-1/3 mb-4"></div>
+          <div className="h-20 bg-white/10 rounded"></div>
+        </div>
+      </GlassSurface>
     );
   }
 
   if (!status) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <Activity className="w-6 h-6" />
-          Estado del Sistema
-        </h2>
-        <p className="text-gray-500">No se pudo cargar el estado del sistema</p>
-      </div>
+      <GlassSurface className="p-6">
+        <div className="w-full">
+          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
+            <Activity className="w-6 h-6 text-blue-300" />
+            Estado del Sistema
+          </h2>
+          <p className="text-white/70">
+            No se pudo cargar el estado del sistema
+          </p>
+        </div>
+      </GlassSurface>
     );
   }
 
@@ -56,73 +63,75 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, loading }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <Activity className="w-6 h-6 text-blue-600" />
-        Estado del Sistema
-      </h2>
+    <GlassSurface className="p-6">
+      <div className="w-full">
+        <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
+          <Activity className="w-6 h-6 text-blue-300" />
+          Estado del Sistema
+        </h2>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">API OpenSky</span>
-          <div className="flex items-center gap-2">
-            {getStatusIcon(status.api_status)}
-            <span
-              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                status.api_status
-              )}`}
-            >
-              {status.api_status}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">Base de Datos</span>
-          <div className="flex items-center gap-2">
-            {getStatusIcon(status.database_status)}
-            <span
-              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                status.database_status
-              )}`}
-            >
-              {status.database_status}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">Zabbix Monitor</span>
-          <div className="flex items-center gap-2">
-            {getStatusIcon(status.zabbix_status)}
-            <span
-              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                status.zabbix_status
-              )}`}
-            >
-              {status.zabbix_status}
-            </span>
-          </div>
-        </div>
-
-        <div className="pt-4 border-t border-gray-200">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-500">Total Registros</p>
-              <p className="text-2xl font-bold text-gray-800">
-                {status.total_records.toLocaleString()}
-              </p>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-white/90 font-medium">API OpenSky</span>
+            <div className="flex items-center gap-2">
+              {getStatusIcon(status.api_status)}
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                  status.api_status
+                )}`}
+              >
+                {status.api_status}
+              </span>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Última Actualización</p>
-              <p className="text-sm font-medium text-gray-700">
-                {new Date(status.last_update).toLocaleTimeString()}
-              </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-white/90 font-medium">Base de Datos</span>
+            <div className="flex items-center gap-2">
+              {getStatusIcon(status.database_status)}
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                  status.database_status
+                )}`}
+              >
+                {status.database_status}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-white/90 font-medium">Zabbix Monitor</span>
+            <div className="flex items-center gap-2">
+              {getStatusIcon(status.zabbix_status)}
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                  status.zabbix_status
+                )}`}
+              >
+                {status.zabbix_status}
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-white/60">Total Registros</p>
+                <p className="text-2xl font-bold text-white">
+                  {status.total_records.toLocaleString()}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-white/60">Última Actualización</p>
+                <p className="text-sm font-medium text-white/90">
+                  {new Date(status.last_update).toLocaleTimeString()}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </GlassSurface>
   );
 };
 

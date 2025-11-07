@@ -12,9 +12,6 @@ const HomePage = () => {
         <video autoPlay loop muted className="w-full h-full object-cover">
           <source src="/videos/clouds.mp4" type="video/mp4" />
         </video>
-        {/* Overlay para dar opacidad/oscurecer el fondo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60 pointer-events-none" />
-        {/* Si prefieres uniforme: bg-black/40 */}
       </div>
 
       {/* Header minimalista */}
@@ -41,13 +38,7 @@ const HomePage = () => {
           className="relative mb-16"
         >
           <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.9,
-            }}
+            
           >
             <img
               src="/images/plane.png"
@@ -65,7 +56,7 @@ const HomePage = () => {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-center space-y-6 px-4"
         >
-          <h2 className="text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-tight">
+          <h2 className="text-8xl md:text-7xl lg:text-8xl font-light text-white tracking-tight font-semibold py-4">
             Discover the world
           </h2>
 
@@ -73,7 +64,8 @@ const HomePage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/dashboard")}
-            className="mt-16 px-16 py-6 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full hover:bg-white/20 transition-all duration-500 text-lg font-light tracking-wide"
+            className="!mt-16 !px-20 !py-7 text-lg font-bold tracking-wide bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full hover:bg-white/20 transition-all duration-500"
+            style={{ padding: "1.75rem 5rem", marginTop: "4rem" }}
           >
             Explore Dashboard
           </motion.button>

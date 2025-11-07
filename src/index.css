@@ -56,6 +56,8 @@ code {
   animation: slideIn 0.3s ease-out;
 }
 
+/* Glass utilities removed - using GlassSurface component instead */
+
 /* Mejoras para el mapa de Leaflet */
 .leaflet-container {
   font-family: inherit;
