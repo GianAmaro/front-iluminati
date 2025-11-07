@@ -22,17 +22,13 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, loading }) => {
 
   if (!status) {
     return (
-      <GlassSurface className="p-6">
-        <div className="w-full">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-            <Activity className="w-6 h-6 text-blue-300" />
-            Estado del Sistema
-          </h2>
-          <p className="text-white/70">
-            No se pudo cargar el estado del sistema
-          </p>
-        </div>
-      </GlassSurface>
+      <div className="w-full">
+        <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
+          <Activity className="w-6 h-6 text-blue-300" />
+          Estado del Sistema
+        </h2>
+        <p className="text-white/70">No se pudo cargar el estado del sistema</p>
+      </div>
     );
   }
 
@@ -63,75 +59,113 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, loading }) => {
   };
 
   return (
-    <GlassSurface className="p-6">
-      <div className="w-full">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-          <Activity className="w-6 h-6 text-blue-300" />
-          Estado del Sistema
-        </h2>
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-white/90 font-medium">API OpenSky</span>
-            <div className="flex items-center gap-2">
-              {getStatusIcon(status.api_status)}
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                  status.api_status
-                )}`}
-              >
-                {status.api_status}
-              </span>
-            </div>
+    <div className="w-full">
+      {/* Grid de 4 status cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* OpenSky Card */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <div className="flex flex-col items-center text-center">
+            {getStatusIcon(status.api_status)}
+            <span
+              className={`mt-3 px-4 py-2 rounded-full text-sm font-bold ${getStatusColor(
+                status.api_status
+              )}`}
+            >
+              {status.api_status === "online" ? "En línea" : status.api_status}
+            </span>
+            <p className="mt-3 text-sm text-gray-700 font-medium">OpenSky</p>
+            <p className="text-xs text-gray-600 mt-1">
+              {new Date(status.last_update).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </p>
           </div>
+        </div>
 
-          <div className="flex items-center justify-between">
-            <span className="text-white/90 font-medium">Base de Datos</span>
-            <div className="flex items-center gap-2">
-              {getStatusIcon(status.database_status)}
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                  status.database_status
-                )}`}
-              >
-                {status.database_status}
-              </span>
-            </div>
+        {/* BD Card */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <div className="flex flex-col items-center text-center">
+            {getStatusIcon(status.database_status)}
+            <span
+              className={`mt-3 px-4 py-2 rounded-full text-sm font-bold ${getStatusColor(
+                status.database_status
+              )}`}
+            >
+              {status.database_status === "online"
+                ? "En línea"
+                : status.database_status}
+            </span>
+            <p className="mt-3 text-sm text-gray-700 font-medium">BD</p>
+            <p className="text-xs text-gray-600 mt-1">
+              {new Date(status.last_update).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </p>
           </div>
+        </div>
 
-          <div className="flex items-center justify-between">
-            <span className="text-white/90 font-medium">Zabbix Monitor</span>
-            <div className="flex items-center gap-2">
-              {getStatusIcon(status.zabbix_status)}
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                  status.zabbix_status
-                )}`}
-              >
-                {status.zabbix_status}
-              </span>
-            </div>
+        {/* Zabbix Cloud Card */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <div className="flex flex-col items-center text-center">
+            {getStatusIcon(status.zabbix_status)}
+            <span
+              className={`mt-3 px-4 py-2 rounded-full text-sm font-bold ${getStatusColor(
+                status.zabbix_status
+              )}`}
+            >
+              {status.zabbix_status === "online"
+                ? "En línea"
+                : status.zabbix_status}
+            </span>
+            <p className="mt-3 text-sm text-gray-700 font-medium">
+              Zabbix Cloud
+            </p>
+            <p className="text-xs text-gray-600 mt-1">
+              {new Date(status.last_update).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </p>
           </div>
+        </div>
 
-          <div className="pt-4 border-t border-white/10">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-white/60">Total Registros</p>
-                <p className="text-2xl font-bold text-white">
-                  {status.total_records.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-white/60">Última Actualización</p>
-                <p className="text-sm font-medium text-white/90">
-                  {new Date(status.last_update).toLocaleTimeString()}
-                </p>
-              </div>
-            </div>
+        {/* Total Registros Card */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <div className="flex flex-col items-center text-center justify-center h-full">
+            <p className="text-5xl font-bold text-gray-900">
+              {status.total_records.toLocaleString()}
+            </p>
+            <p className="mt-3 text-sm text-gray-700 font-medium">
+              Total de registros
+            </p>
+            <p className="text-xs text-gray-600 mt-1">
+              {new Date(status.last_update).toLocaleString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </p>
           </div>
         </div>
       </div>
-    </GlassSurface>
+    </div>
   );
 };
 

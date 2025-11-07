@@ -38,20 +38,22 @@ function DashboardPageDemo() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white relative">
-      {/* Video Background */}
+      {/* Image Background */}
       <div className="fixed inset-0 z-0">
-        <video autoPlay loop muted className="w-full h-full object-cover">
-          <source src="/videos/clouds.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+        <img
+          src="/images/fondo.png"
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0"></div>
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10">
+      <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
         <motion.header
           initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          animate={{ y: 0, opacity: 0.5 }}
           className="sticky top-0 z-50"
         >
           <GlassSurface borderRadius={0} backgroundOpacity={0.1}>
@@ -88,40 +90,59 @@ function DashboardPageDemo() {
           </GlassSurface>
         </motion.header>
 
-        {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-12"
+        {/* Main Content - Wrapped in GlassSurface */}
+        <div className="flex-1 flex items-center justify-center px-4 py-8">
+          <GlassSurface
+            className="w-full max-w-[1400px] p-8"
+            backgroundOpacity={0.2}
+            style={{ background: "rgba(255, 255, 255, 0.25)" }}
+            borderRadius={24}
           >
-            {/* Primera fila: Estado del Sistema y Alertas */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <StatusCard status={status} loading={false} />
-              <ZabbixAlerts
-                alerts={alerts}
-                onRemoveAlert={removeAlert}
-                onClearAll={clearAlerts}
-              />
-            </div>
+            <main>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-6"
+              >
+                {/* Primera fila: Status Cards + Notificaciones */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Status Cards - 2/3 del ancho */}
+                  <div className="lg:col-span-2">
+                    <StatusCard status={status} loading={false} />
+                  </div>
 
-            {/* Segunda fila: Mapa de Vuelos - Centrado */}
-            <div className="flex justify-center">
-              <FlightMap flights={flights} />
-            </div>
+                  {/* Notificaciones - 1/3 del ancho */}
+                  <div>
+                    <ZabbixAlerts
+                      alerts={alerts}
+                      onRemoveAlert={removeAlert}
+                      onClearAll={clearAlerts}
+                    />
+                  </div>
+                </div>
 
-            {/* Tercera fila: Estadísticas */}
-            <div>
-              <FlightStatsChart flights={flights} />
-            </div>
+                {/* Segunda fila: Stats + Mapa */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Stats Cards - 2/3 del ancho */}
+                  <div className="lg:col-span-2">
+                    <FlightStatsChart flights={flights} />
+                  </div>
 
-            {/* Cuarta fila: Lista de Vuelos */}
-            <div>
-              <FlightList flights={flights} loading={false} />
-            </div>
-          </motion.div>
-        </main>
+                  {/* Mapa - 1/3 del ancho */}
+                  <div className="flex justify-center items-start">
+                    <FlightMap flights={flights} />
+                  </div>
+                </div>
+
+                {/* Tercera fila: Lista de Vuelos - Ancho completo */}
+                <div>
+                  <FlightList flights={flights} loading={false} />
+                </div>
+              </motion.div>
+            </main>
+          </GlassSurface>
+        </div>
 
         {/* Footer */}
         <footer className="mt-12">

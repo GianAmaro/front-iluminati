@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import GlassSurface from "../components/GlassSurface";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -20,8 +21,7 @@ const HomePage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="absolute top-0 left-0 right-0 z-50 px-8 py-6"
-      >
-      </motion.header>
+      ></motion.header>
 
       {/* Contenido central */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
@@ -37,9 +37,7 @@ const HomePage = () => {
           }}
           className="relative mb-16"
         >
-          <motion.div
-            
-          >
+          <motion.div>
             <img
               src="/images/plane.png"
               alt="Aircraft"
@@ -59,16 +57,16 @@ const HomePage = () => {
           <h2 className="text-8xl md:text-7xl lg:text-8xl font-light text-white tracking-tight font-semibold py-4">
             Discover the world
           </h2>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/dashboard")}
-            className="!mt-16 !px-20 !py-7 text-lg font-bold tracking-wide bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full hover:bg-white/20 transition-all duration-500"
-            style={{ padding: "1.75rem 5rem", marginTop: "4rem" }}
-          >
-            Explore Dashboard
-          </motion.button>
+          <GlassSurface className="!px-8 !py-4 inline-block" width="auto">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/dashboard")}
+              className="text-lg font-regular tracking-wide text-white"
+            >
+              Explore Dashboard
+            </motion.button>
+          </GlassSurface>
         </motion.div>
       </div>
 

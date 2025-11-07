@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapPin } from "lucide-react";
-import GlassSurface from "./GlassSurface";
 import {
   formatCallsign,
   formatAltitude,
@@ -59,16 +57,13 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
   }, []);
 
   return (
-    <GlassSurface className="px-2 py-6" borderRadius={999} width="auto">
-      <div className="w-full flex flex-col items-center">
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white">
-          <MapPin className="w-6 h-6 text-blue-300" />
-          Mapa de Vuelos sobre CDMX
-        </h2>
+    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30 h-full flex flex-col">
+      <h3 className="text-sm font-medium text-gray-700 mb-4">Vuelos en CDMX</h3>
 
+      <div className="flex-1 flex flex-col items-center justify-center">
         <div
-          className="rounded-full overflow-hidden shadow-2xl"
-          style={{ width: "500px", height: "500px" }}
+          className="rounded-full overflow-hidden shadow-lg mb-4"
+          style={{ width: "280px", height: "280px" }}
         >
           {mapReady && (
             <MapContainer
@@ -78,8 +73,8 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
               zoomControl={false}
             >
               <TileLayer
-                attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
-                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
               />
               <MapController flights={validFlights} />
 
@@ -123,14 +118,11 @@ const FlightMap: React.FC<FlightMapProps> = ({ flights }) => {
           )}
         </div>
 
-        <div className="mt-6 text-sm text-white/60">
-          <p>
-            Mostrando {validFlights.length} vuelos activos sobre la Ciudad de
-            México
-          </p>
-        </div>
+        <button className="text-sm text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          Ver más
+        </button>
       </div>
-    </GlassSurface>
+    </div>
   );
 };
 
